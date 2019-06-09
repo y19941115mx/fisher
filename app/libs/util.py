@@ -13,10 +13,10 @@ def is_isbn_or_key(word):
     return isbn_or_key
 
 
-def generate_app():
+def generate_secret_key(n=50):
     seed = string.ascii_letters + '1234567890'
     sa = []
-    for i in range(11):
+    for i in range(n):
         sa.append(random.choice(seed))
 
     salt = ''.join(sa)

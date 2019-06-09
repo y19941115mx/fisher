@@ -1,5 +1,4 @@
 from app import create_app
-from app.models import db
 
 app = create_app() # 默认载入开发环境配置文件
 

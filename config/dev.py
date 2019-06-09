@@ -2,3 +2,5 @@ DEBUG = True
 PER_PAGE = 15
 SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:root@localhost/test'
 SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+SECRET_KEY = 'NGyISxDqk33xEwNP0Qi5zRT9a0t2yuTXkXzNbuzMKmemEmrBK9'

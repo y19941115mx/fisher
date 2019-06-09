@@ -32,7 +32,7 @@ class YuShuBook:
         self.__fill_single(result)
 
     def search_by_keyword(self, keyword, page):
-        page = int(page)
+        page = page
         url = self.keyword_url.format(keyword, self.per_page, self.per_page * (page - 1))
         result = YuShuBook.get_by_api(url)
         self.__fill_collection(result)
