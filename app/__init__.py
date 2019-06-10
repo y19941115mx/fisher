@@ -1,10 +1,11 @@
 from flask import Flask
 from werkzeug.utils import import_string
 
-from app.models import db
+from app.ext import setup_plugins
 
 extensions = [
     'app.ext:db',
+    'app.ext:login_manager',
 ]
 
 blueprints = [
@@ -12,13 +13,13 @@ blueprints = [
 ]
 
 
-def register_blue_print(app):
+def register_blue_prints(app):
     for bp_name in blueprints:
         bp = import_string(bp_name)
         app.register_blueprint(bp)
 
 
-def register_plugin(app):
+def register_plugins(app):
     for ext_name in extensions:
         ext = import_string(ext_name)
         ext.init_app(app)
@@ -34,8 +35,10 @@ def create_app(debug=True):
     else:
         app.config.from_object('config.proc')
 
-    register_blue_print(app)
+    register_blue_prints(app)
 
-    register_plugin(app)
+    register_plugins(app)
+
+    setup_plugins(app)
 
     return app
