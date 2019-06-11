@@ -6,6 +6,7 @@ from app.ext import setup_plugins
 extensions = [
     'app.ext:db',
     'app.ext:login_manager',
+    'app.ext:cache',
 ]
 
 blueprints = [
@@ -23,8 +24,6 @@ def register_plugins(app):
     for ext_name in extensions:
         ext = import_string(ext_name)
         ext.init_app(app)
-        if ext_name == 'app.ext:db':
-            ext.create_all(app=app)
 
 
 def create_app(debug=True):

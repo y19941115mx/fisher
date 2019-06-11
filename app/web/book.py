@@ -6,7 +6,7 @@ from app.forms.book import SearchForm
 from app.libs.redprint import Redprint
 from app.libs.util import is_isbn_or_key
 from app.view_models.book import BookCollection
-from app.libs.http import YuShuBook
+from app.libs.api import YuShuBook
 
 redprint = Redprint('book')
 
