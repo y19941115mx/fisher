@@ -63,7 +63,7 @@
             </div>
             <div style="margin-left:30px;" class="col-md-1">
                 <a class="btn btn-outline"
-                   href="{{ url_for('web.save_to_wish', isbn=book.isbn) }}">
+                   href="{{ url_for('web.wish:save_to_wish', isbn=book.isbn) }}">
                     加入到心愿清单
                 </a>
             </div>
@@ -100,7 +100,7 @@
                 </div>
                 <div class="col-md-2">
                     <a class="btn-normal"
-                       href="{{ url_for('web.send_drift', gid=gift.id) }}">向他请求此书</a>
+                       href="{{ url_for('web.draft:send_drift', gid=gift.id) }}">向他请求此书</a>
                 </div>
             </div>
         {% endfor %}
@@ -120,7 +120,7 @@
                 </div>
                 <div class="col-md-2">
                     <a class="btn-normal"
-                       href="{{ url_for('web.satisfy_wish', wid=wish.id, isbn=[book.isbn]) }}">向他赠送此书</a>
+                       href="{{ url_for('web.wish:satisfy_wish', wid=wish.id, isbn=[book.isbn]) }}">向他赠送此书</a>
                 </div>
             </div>
         {% endfor %}

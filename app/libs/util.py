@@ -5,12 +5,20 @@ import string
 def is_isbn_or_key(word):
     word = word.strip()
     isbn_or_key = 'key'
-    if len(word) == 13 and word.isdigit():
-        isbn_or_key = 'isbn'
-    short_word = word.replace('-', '')
-    if len(short_word) == 10 and short_word.isdigit():
+    if check_isbn(isbn_or_key):
         isbn_or_key = 'isbn'
     return isbn_or_key
+
+
+def check_isbn(isbn):
+    isbn = isbn.strip()
+    if len(isbn) == 13 and isbn.isdigit():
+        return True
+    short_word = isbn.replace('-', '')
+    if len(short_word) == 10 and short_word.isdigit():
+        return True
+    return False
+
 
 
 def generate_secret_key(n=50):

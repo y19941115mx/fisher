@@ -8,8 +8,6 @@ class YuShuBook:
     """
         封装鱼书API 提供数据
     """
-    # per_page = current_app.config['PER_PAGE']
-
     isbn_url = 'http://t.yushu.im/v2/book/isbn/{}'
     keyword_url = 'http://t.yushu.im/v2/book/search?q={}&count={}&start={}'
 

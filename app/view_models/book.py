@@ -19,7 +19,7 @@ class BookViewModel:
         return ' / '.join(intros)
 
 
-class BookCollection:
+class BookViewCollection:
     def __init__(self):
         self.total = 0
         self.books = []
