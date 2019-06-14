@@ -1,9 +1,11 @@
 from sqlalchemy import Column, String, Boolean, Float, Integer
 
 from app.models import Base
+from flask_login import UserMixin
+from app.ext import login_manager
 
 
-class User(Base):
+class User(Base, UserMixin):
     id = Column(Integer, primary_key=True)
     nickname = Column(String(24), nullable=False)
     phone_number = Column(String(18), unique=True)
@@ -14,3 +16,7 @@ class User(Base):
     password = Column(String(100), nullable=False)
     # 用户是否激活
     confirmed = Column(Boolean, default=False)
+
+@login_manager.user_loader
+def user_loader(id):
+    return User.get_id(id)

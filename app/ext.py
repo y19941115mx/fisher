@@ -7,8 +7,8 @@ login_manager = LoginManager()
 
 cache = Cache(config={'CACHE_TYPE': 'simple'})
 
-
+# 配置插件
 def setup_plugins(app):
     db.create_all(app=app)
     login_manager.login_message = '请重新登陆'
-    # login_manager.login_view = 'web.auth:login'
+    login_manager.login_view = 'web.auth:login'

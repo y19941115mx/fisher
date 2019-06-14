@@ -16,7 +16,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-8 col-md-offset-2 flex-vertical personal-detail">
-                        <form action="{{ url_for('web.register') }}" method="post">
+                        <form action="{{ url_for('web.auth:register') }}" method="post">
                             <input style="width:100%" id="nickname" name="nickname"
                                    type="text"
                                    placeholder="昵称"
@@ -38,7 +38,7 @@
                 <div style="margin-top:30px;" class="row">
                     <div class="col-md-8 text-center col-md-offset-2">
                         <span class="description-font">已有账号？</span><a
-                            href="{{ url_for('web.login') }}">登录</a>
+                            href="{{ url_for('web.auth:login') }}">登录</a>
                     </div>
                 </div>
             </div>

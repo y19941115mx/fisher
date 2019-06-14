@@ -32,7 +32,7 @@
                                        placeholder="密码"
                                        class="none-input" type="password">
                                 <a id="forget-password" class="description-font"
-                                   href="{{ url_for('web.forget_password_request') }}">
+                                   href="">
                                     忘记密码?</a>
                             </div>
                             <input style="margin-top:15px;" id="btn-submit" type="submit"
@@ -43,7 +43,7 @@
                 <div style="margin-top:30px;" class="row">
                     <div class="col-md-8 text-center col-md-offset-2">
                         <span class="description-font">没有账号？</span><a
-                            href="{{ url_for('web.register') }}">注册</a>
+                            href="{{ url_for('web.auth:register') }}">注册</a>
                     </div>
                 </div>
             </div>

@@ -12,3 +12,8 @@ def create_blueprint_web():
 
 
 bp = create_blueprint_web()
+
+
+@bp.route('/')
+def main():
+    return 'index'

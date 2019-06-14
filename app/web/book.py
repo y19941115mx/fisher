@@ -39,7 +39,7 @@ def search():
 def detail(isbn):
     has_in_gifts = False
     has_in_wishes = False
-
+ 
     yushu = YuShuBook()
 
     if check_isbn(isbn):
