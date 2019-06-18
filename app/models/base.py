@@ -37,7 +37,7 @@ class Query(BaseQuery):
     #     return rv
 
 
-db = SQLAlchemy()
+db = SQLAlchemy(query_class=Query)
 
 
 class Base(db.Model):
@@ -58,10 +58,15 @@ class Base(db.Model):
         else:
             return None
 
+    def add(self):
+        db.session.add(self)
+        db.session.commit()
+
     def set_attrs(self, attrs_dict):
         for key, value in attrs_dict.items():
             if hasattr(self, key) and key != 'id':
                 setattr(self, key, value)
+        return self
 
     def delete(self):
         self.status = 0
@@ -69,12 +74,3 @@ class Base(db.Model):
     def keys(self):
         return self.fields
 
-    def hide(self, *keys):
-        for key in keys:
-            self.fields.remove(key)
-        return self
-
-    def append(self, *keys):
-        for key in keys:
-            self.fields.append(key)
-        return self

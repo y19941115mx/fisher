@@ -2,13 +2,15 @@ from wtforms import Form, StringField, PasswordField
 from wtforms.validators import DataRequired, Length, Email, ValidationError
 from app.models.user import User
 
+
 class EmailForm(Form):
     email = StringField('电子邮件', validators=[DataRequired(),
                                             Email(message='电子邮箱不符合规范')])
-    
+
+
 class LoginForm(EmailForm):
     password = PasswordField('密码', validators=[
-        DataRequired(message='密码不可以为空，请输入你的密码'),Length(6, 24)])
+        DataRequired(message='密码不可以为空，请输入你的密码'), Length(6, 24)])
 
 
 class RegisterForm(EmailForm):

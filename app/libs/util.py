@@ -1,5 +1,12 @@
 import random
 import string
+from threading import Thread
+
+from flask import current_app, render_template
+from flask_mail import Message
+from werkzeug.exceptions import InternalServerError
+
+from app.ext import mail
 
 
 def is_isbn_or_key(word):
@@ -20,7 +27,6 @@ def check_isbn(isbn):
     return False
 
 
-
 def generate_secret_key(n=50):
     seed = string.ascii_letters + '1234567890'
     sa = []
@@ -30,3 +36,19 @@ def generate_secret_key(n=50):
     salt = ''.join(sa)
     return salt
 
+
+def send_async_email(app, msg):
+    with app.app_context():
+        try:
+            mail.send(msg)
+        except Exception as e:
+            raise InternalServerError()
+
+
+def send_email(to: str, subject: str, template: str, **kwargs):
+    app = current_app._get_current_object()
+    msg = Message('[鱼书]' + ' ' + subject, recipients=[to])
+    msg.html = render_template(template, **kwargs)
+    thr = Thread(target=send_async_email, args=(app, msg))
+    thr.start()
+    return thr

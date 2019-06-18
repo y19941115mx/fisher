@@ -1,6 +1,7 @@
 import json
 
 from flask import jsonify, render_template, flash, request
+from flask_login import current_user
 
 from app.forms.book import SearchForm
 from app.libs.redprint import Redprint
@@ -39,13 +40,14 @@ def search():
 def detail(isbn):
     has_in_gifts = False
     has_in_wishes = False
- 
+
     yushu = YuShuBook()
 
     if check_isbn(isbn):
         yushu.search_by_isbn(isbn)
         book = BookViewModel(yushu.first)
     else:
+        book = None
         flash('isbn号不符合要求，请重新输入')
 
     return render_template('book_detail.html', book=book,

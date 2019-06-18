@@ -1,14 +1,18 @@
 from flask_caching import Cache
+from flask_login import LoginManager
+from flask_mail import Mail
 
 from app.models import db
-from flask_login import LoginManager
+
 
 login_manager = LoginManager()
 
 cache = Cache(config={'CACHE_TYPE': 'simple'})
 
-# 配置插件
+mail = Mail()
+
+
 def setup_plugins(app):
-    db.create_all(app=app)
+    # 配置插件
     login_manager.login_message = '请重新登陆'
     login_manager.login_view = 'web.auth:login'

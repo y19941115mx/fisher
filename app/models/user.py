@@ -1,22 +1,60 @@
-from sqlalchemy import Column, String, Boolean, Float, Integer
+from sqlalchemy import Column, String, Boolean, Float, Integer, Text
+from werkzeug.security import generate_password_hash, check_password_hash
 
-from app.models import Base
+from app.libs.token import generate_token, translate_token
+from app.models import Base, db
 from flask_login import UserMixin
 from app.ext import login_manager
 
 
 class User(Base, UserMixin):
     id = Column(Integer, primary_key=True)
-    nickname = Column(String(24), nullable=False)
+    nickname = Column(String(24), nullable=False, unique=True)
     phone_number = Column(String(18), unique=True)
     email = Column(String(50), unique=True, nullable=False)
     beans = Column(Float, default=0)
     send_counter = Column(Integer, default=0)
     receive_counter = Column(Integer, default=0)
-    password = Column(String(100), nullable=False)
+    _password = Column('password', String(100), nullable=False)
     # 用户是否激活
     confirmed = Column(Boolean, default=False)
 
+    @property
+    def password(self):
+        return self._password
+
+    @password.setter
+    def password(self, raw):
+        self._password = generate_password_hash(raw)
+
+    def generate_token(self, expiration=None):
+        data = {'id': self.id}
+        return generate_token(data, expiration)
+
+    def check_password(self, raw):
+        if not self._password:
+            return False
+        return check_password_hash(self._password, raw)
+
+
+    @staticmethod
+    def confirm_token(token):
+        data = translate_token(token)
+        if not data:
+            return False
+        uid = data.get('id')
+        user = User.query.filter_by(id=uid).first()
+        if user:
+            user.confirmed = True
+            db.session.commit()
+            return True
+        return False
+
+    @property
+    def is_active(self):
+        return self.confirmed
+
+
 @login_manager.user_loader
-def user_loader(id):
-    return User.get_id(id)
+def user_loader(uid):
+    return User.query.filter_by(id=uid).first()

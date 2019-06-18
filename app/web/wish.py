@@ -4,10 +4,10 @@ from flask_login import login_required
 redprint = Redprint('wish')
 
 
-@redprint.route('/book/<int:isbn>')
+@redprint.route('/book/<isbn>')
 @login_required
 def save_to_wish(isbn):
-    return 'hello'
+    return str(isbn)
 
 
 @redprint.route('/satisfy/<int:wid>')

@@ -7,6 +7,7 @@ extensions = [
     'app.ext:db',
     'app.ext:login_manager',
     'app.ext:cache',
+    'app.ext:mail',
 ]
 
 blueprints = [
