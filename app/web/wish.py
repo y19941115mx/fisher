@@ -1,6 +1,6 @@
 from app.libs.redprint import Redprint
 from flask_login import login_required, current_user
-from flask import redirect, url_for, flash, render_template
+from flask import redirect, url_for, flash, render_template, abort
 
 from app.models import db
 from app.models.wish import Wish
@@ -42,4 +42,4 @@ def satisfy_wish(wid):
 @redprint.route('/redraw/wid')
 @login_required
 def redraw(wid):
-    pass
+    abort

@@ -5,7 +5,7 @@ from flask_login import current_user
 
 from app.forms.book import SearchForm
 from app.libs.redprint import Redprint
-from app.libs.util import is_isbn_or_key, check_isbn
+from app.libs.util import is_isbn_or_key
 from app.models.gift import Gift
 from app.models.wish import Wish
 from app.view_models.book import BookViewCollection, BookViewModel
