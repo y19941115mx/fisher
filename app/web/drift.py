@@ -42,31 +42,6 @@ def send_drift(gid):
                            user_beans=current_user.beans, form=drift_form)
 
 
-def save_a_drift(drift_form, current_gift):
-    with db.auto_commit():
-        book = BookViewModel(current_gift.book)
-
-        drift = Drift()
-        drift_form.populate_obj(drift)
-
-        drift.gift_id = current_gift.id
-        drift.requester_id = current_user.id
-        drift.requester_nickname = current_user.nickname
-        drift.gifter_nickname = current_gift.user.nickname
-        drift.gifter_id = current_gift.user.id
-        drift.book_title = book.title
-        drift.book_author = book.author
-        drift.book_img = book.image
-        drift.isbn = book.isbn
-
-        current_user.beans -= 1
-
-        drift.add()
-    send_email(current_gift.user.email, '有人想要一本书', 'email/get_gift.html',
-               wisher=current_user,
-               gift=current_gift)
-
-
 @redprint.route('/pending')
 @login_required
 def pending():
@@ -122,14 +97,43 @@ def mailed_drift(did):
         注意需要验证超权
     """
     with db.auto_commit():
-        # requester_id = current_user.id 这个条件可以防止超权
         drift = Drift.query.filter_by(
             gifter_id=current_user.id, id=did).first_or_404()
         drift.pending = PendingStatus.success
         current_user.beans += current_app.config['BEANS_EVERY_DRIFT']
         gift = Gift.query.filter_by(id=drift.gift_id).first_or_404()
         gift.launched = True
-        # 不查询直接更新;这一步可以异步来操作
-        Wish.query.filter_by(isbn=drift.isbn, uid=drift.requester_id,
-                             launched=False).update({Wish.launched: True})
+        gift.user.send_counter += 1
+
+        wish = Wish.query.filter_by(isbn=drift.isbn, uid=drift.requester_id, launched=False)
+        wish.launched = True
+        wish.user.receive_counter += 1
+
     return redirect(url_for('web.drift:pending'))
+
+
+def save_a_drift(drift_form, current_gift):
+    with db.auto_commit():
+        book = BookViewModel(current_gift.book)
+
+        drift = Drift()
+        drift_form.populate_obj(drift)
+
+        drift.requester_id = current_user.id
+        drift.requester_nickname = current_user.nickname
+
+        drift.gift_id = current_gift.id
+        drift.gifter_nickname = current_gift.user.nickname
+        drift.gifter_id = current_gift.user.id
+
+        drift.book_title = book.title
+        drift.book_author = book.author
+        drift.book_img = book.image
+        drift.isbn = book.isbn
+
+        current_user.beans -= current_app.config['BEANS_EVERY_DRIFT']
+
+        drift.add()
+    send_email(current_gift.user.email, '有人想要一本书', 'email/get_gift.html',
+               wisher=current_user,
+               gift=current_gift)

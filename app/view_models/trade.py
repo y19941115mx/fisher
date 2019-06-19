@@ -1,5 +1,6 @@
 from app.view_models.book import BookViewModel
 
+
 class TradeInfo:
     def __init__(self, trades):
         self.total = len(trades)
@@ -16,6 +17,7 @@ class TradeInfo:
         )
 
 
+# todo 改写 MyTradesViewModel
 class MyTrades:
     def __init__(self, my_trades, my_trade_count):
         self.my_trades = my_trades

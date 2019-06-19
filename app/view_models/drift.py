@@ -4,9 +4,8 @@
 from app.libs.enum import PendingStatus
 from flask_login import current_user
 
-__author__ = '七月'
 
-
+# todo 改写 DriftViewModel
 class DriftViewModel:
     @classmethod
     def pending(cls, drifts):

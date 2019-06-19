@@ -27,12 +27,6 @@ def check_isbn(isbn):
         return True
     return False
 
-# todo 检查isbn号是否能被查询到
-def can_get_book(isbn):
-    yushu_book = YuShuBook()
-    yushu_book.search_by_isbn(isbn)
-    return yushu_book.first
-
 
 def generate_secret_key(n=50):
     seed = string.ascii_letters + '1234567890'
