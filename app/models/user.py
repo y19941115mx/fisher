@@ -86,9 +86,6 @@ class User(Base, UserMixin):
                                             ).first() else False
 
 
-
-
-
 @login_manager.user_loader
 def user_loader(uid):
     return User.query.filter_by(id=uid).first()

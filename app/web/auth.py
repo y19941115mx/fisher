@@ -1,4 +1,4 @@
-from flask_login import login_user
+from flask_login import login_user, logout_user
 
 from app.libs.redprint import Redprint
 from flask import render_template, request, flash, redirect, url_for
@@ -6,9 +6,7 @@ from app.forms.auth import LoginForm, RegisterForm
 from app.libs.util import send_email
 from app.models.user import User
 
-
 redprint = Redprint('auth')
-
 
 @redprint.route('/login', methods=['GET', 'POST'])
 def login():
@@ -23,7 +21,7 @@ def login():
                 if next and str(next).startswith('/'):
                     return redirect(next)
                 else:
-                    return redirect(url_for('web.main'))
+                    return redirect(url_for('web.index'))
             else:
                 flash('账号未激活或密码错误')
         else:
@@ -56,4 +54,5 @@ def confirm(token):
 
 @redprint.route('/logout')
 def logout():
-    pass
+    logout_user()
+    return redirect(url_for('web.index'))

@@ -82,7 +82,9 @@
     </div>
     <div style="margin-top:15px;" class="row">
         <div class="col-md-11">
+            {% autoescape false %}
             <p class="description-font">{{ book.summary }}</p>
+            {% endautoescape %}
         </div>
     </div>
     {% if gifts.total!= 0 and not has_in_gifts %}

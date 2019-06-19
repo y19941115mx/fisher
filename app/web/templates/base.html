@@ -37,21 +37,21 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-2 col-md-offset-1">
-                    <a id="recent" href=""
+                    <a id="recent" href="{{ url_for('web.index') }}"
                        class="flex-vertical-hor-center">
                         <img src="{{ url_for('static', filename='images/upload.png') }}"/>
                         <span>最近上传</span>
                     </a>
                 </div>
                 <div class="col-md-2">
-                    <a id="gifts" href=""
+                    <a id="gifts" href="{{ url_for('web.gift:my_gifts') }}"
                        class="flex-vertical-hor-center">
                         <img src="{{ url_for('static', filename='images/gift.png') }}"/>
                         <span>赠送清单</span>
                     </a>
                 </div>
                 <div class="col-md-2">
-                    <a id="wishes" href=""
+                    <a id="wishes" href="{{ url_for('web.wish:my_wishes') }}"
                        class="flex-vertical-hor-center">
                         <img src="{{ url_for('static', filename='images/wish.png') }}"/>
                         <span>心愿清单</span>
@@ -99,7 +99,7 @@
     {% block content %} {% endblock %}
 </div>
 <div id="footer" class="flex-hor-center">
-    <span>© 2017-2020 yushu.im created by 七月</span>
+    <span>© 2018-2020 yushu created by victor</span>
 </div>
 </body>
 

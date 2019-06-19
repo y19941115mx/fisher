@@ -1,3 +1,4 @@
+from app.view_models.book import BookViewModel
 
 class TradeInfo:
     def __init__(self, trades):
@@ -13,3 +14,24 @@ class TradeInfo:
             time=single.create_datetime.strftime('%Y-%m-%d'),
             id=single.id
         )
+
+
+class MyTrades:
+    def __init__(self, my_trades, my_trade_count):
+        self.my_trades = my_trades
+        self.my_trade_count = my_trade_count
+        self.trades = self.__parse()
+
+    def __parse(self):
+        temp_trades = []
+        for trade in self.my_trades:
+            count = self.my_trade_count.get(trade.isbn, 0)
+            r = {
+                'id': trade.id,
+                'count': count,
+                'book': BookViewModel(trade.book)
+            }
+            temp_trades.append(r)
+
+        return temp_trades
+

@@ -20,7 +20,7 @@ bp = create_blueprint_web()
 
 
 @bp.route('/')
-@cache.cached(timeout=60)
+# @cache.cached(timeout=60)
 def index():
     gifts = Gift.recent()
     books = [BookViewModel(gift.book) for gift in gifts]
