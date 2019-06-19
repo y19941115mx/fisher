@@ -3,14 +3,14 @@ from flask import Blueprint, render_template
 from app.ext import cache
 from app.models.gift import Gift
 from app.view_models.book import BookViewModel
-from app.web import book, draft, wish, auth, gift
+from app.web import book, drift, wish, auth, gift
 
 
 def create_blueprint_web():
     blueprint = Blueprint('web', __name__, template_folder='templates')
     book.redprint.register(blueprint)
     wish.redprint.register(blueprint)
-    draft.redprint.register(blueprint)
+    drift.redprint.register(blueprint)
     auth.redprint.register(blueprint)
     gift.redprint.register(blueprint)
     return blueprint

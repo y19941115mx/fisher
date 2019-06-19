@@ -11,6 +11,12 @@ class Gift(Base):
     isbn = Column(String(13), nullable=False)
     launched = Column(Boolean, default=False)
 
+    def __hash__(self):
+        return self.isbn.__hash__()
+
+    def __eq__(self, other):
+        return self.isbn == other.isbn
+
     @property
     def user(self):
         from app.models.user import User
@@ -31,9 +37,10 @@ class Gift(Base):
         index_page = current_app.config.get('INDEX_PAGE', 30)
         gifts = cls.query.filter_by(
             launched=False).order_by(
-            Gift.create_time.desc()).distinct(Gift.isbn).limit(
+            Gift.create_time.desc()).limit(
             index_page).all()
-        return gifts
+
+        return set(gifts)
 
     @classmethod
     def get_user_gifts(cls, uid):

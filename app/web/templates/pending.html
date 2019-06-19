@@ -39,17 +39,17 @@
                     <div class="col-md-2 flex-vertical">
                         {% if drift.you_are == 'gifter' %}
                             {% if drift.status.value == 1 %}
-                                <a href="{{ url_for('web.mailed_drift', did=drift.drift_id) }}">
+                                <a href="{{ url_for('web.drift:mailed_drift', did=drift.drift_id) }}">
                                     <span class="btn-normal">已邮寄</span>
                                 </a>
-                                <a style="margin-top:20px;" href="{{ url_for('web.reject_drift', did=drift.drift_id) }}">
+                                <a style="margin-top:20px;" href="{{ url_for('web.drift:reject_drift', did=drift.drift_id) }}">
                                     <span class="btn-shadow">拒&nbsp;&nbsp;&nbsp;绝</span>
                                 </a>
                             {% endif %}
                         {% endif %}
                         {% if drift.you_are == 'requester' %}
                             {% if drift.status.value == 1 %}
-                                <a href="{{ url_for('web.redraw_drift', did=drift.drift_id) }}">
+                                <a href="{{ url_for('web.drift:redraw_drift', did=drift.drift_id) }}">
                                         <span class="btn-normal">撤 销</span>
                                 </a>
                             {% endif %}

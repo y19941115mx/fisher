@@ -1,3 +1,5 @@
+import math
+
 from sqlalchemy import Column, String, Boolean, Float, Integer
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -84,6 +86,22 @@ class User(Base, UserMixin):
         from app.models.wish import Wish
         return True if Wish.query.filter_by(uid=self.id, isbn=isbn, launched=False
                                             ).first() else False
+
+    @property
+    def summary(self):
+        return dict(
+            nickname=self.nickname,
+            beans=self.beans,
+            email=self.email,
+            send_receive=str(self.send_counter) + '/' + str(self.receive_counter)
+        )
+
+    def can_satisfied_wish(self):
+        # 鱼豆不足
+        if self.beans < 1:
+            return False
+        # 每索取两本书 自己必须送出一本书
+        return True if math.floor(self.receive_counter / 2) <= self.send_counter else False
 
 
 @login_manager.user_loader

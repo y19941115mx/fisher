@@ -34,7 +34,7 @@ def send_drift(gid):
     if request.method == 'POST':
         if drift_form.validate():
             save_a_drift(drift_form, current_gift)
-            return redirect(url_for('web.draft:pending'))
+            return redirect(url_for('web.drift:pending'))
 
     gifter = current_gift.user.summary
 
@@ -92,7 +92,7 @@ def reject_drift(did):
         # 当收到一个请求时，书籍不会处于锁定状态, 也就是说一个礼物可以收到多个请求
         # gift = Gift.query.filter_by(id=drift.gift_id, status=1).first_or_404()
         # gift.launched = False
-    return redirect(url_for('web.pending'))
+    return redirect(url_for('web.drift:pending'))
 
 
 @redprint.route('/<int:did>/redraw')
@@ -111,7 +111,7 @@ def redraw_drift(did):
         current_user.beans += current_app.config['BEANS_EVERY_DRIFT']
         # gift = Gift.query.filter_by(id=drift.gift_id).first_or_404()
         # gift.launched = False
-    return redirect(url_for('web.pending'))
+    return redirect(url_for('web.drift:pending'))
 
 
 @redprint.route('/<int:did>/mailed')
@@ -132,4 +132,4 @@ def mailed_drift(did):
         # 不查询直接更新;这一步可以异步来操作
         Wish.query.filter_by(isbn=drift.isbn, uid=drift.requester_id,
                              launched=False).update({Wish.launched: True})
-    return redirect(url_for('web.pending'))
+    return redirect(url_for('web.drift:pending'))
