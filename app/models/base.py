@@ -24,18 +24,6 @@ class Query(BaseQuery):
             kwargs['status'] = 1
         return super(Query, self).filter_by(**kwargs)
 
-    # def get_or_404(self, ident):
-    #     rv = self.get(ident)
-    #     if not rv:
-    #         raise NotFound()
-    #     return rv
-    #
-    # def first_or_404(self):
-    #     rv = self.first()
-    #     if not rv:
-    #         raise NotFound()
-    #     return rv
-
 
 db = SQLAlchemy(query_class=Query)
 
@@ -60,7 +48,6 @@ class Base(db.Model):
 
     def add(self):
         db.session.add(self)
-        db.session.commit()
 
     def set_attrs(self, attrs_dict):
         for key, value in attrs_dict.items():

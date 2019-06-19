@@ -32,7 +32,7 @@
                                        placeholder="密码"
                                        class="none-input" type="password">
                                 <a id="forget-password" class="description-font"
-                                   href="">
+                                   href="{{ url_for('web.auth:forget_password') }}">
                                     忘记密码?</a>
                             </div>
                             <input style="margin-top:15px;" id="btn-submit" type="submit"
