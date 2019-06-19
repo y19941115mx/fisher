@@ -7,12 +7,13 @@ from flask_mail import Message
 from werkzeug.exceptions import InternalServerError
 
 from app.ext import mail
+from app.libs.api import YuShuBook
 
 
 def is_isbn_or_key(word):
     word = word.strip()
     isbn_or_key = 'key'
-    if check_isbn(isbn_or_key):
+    if check_isbn(word):
         isbn_or_key = 'isbn'
     return isbn_or_key
 
@@ -25,6 +26,12 @@ def check_isbn(isbn):
     if len(short_word) == 10 and short_word.isdigit():
         return True
     return False
+
+# todo 检查isbn号是否能被查询到
+def can_get_book(isbn):
+    yushu_book = YuShuBook()
+    yushu_book.search_by_isbn(isbn)
+    return yushu_book.first
 
 
 def generate_secret_key(n=50):

@@ -52,3 +52,8 @@ def confirm(token):
     else:
         flash('activate fail, token may has been expired !')
     return redirect(url_for('web.auth:login'))
+
+
+@redprint.route('/logout')
+def logout():
+    pass

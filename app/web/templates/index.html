@@ -11,7 +11,7 @@
     <div id="books" class="row">
         {% for book in recent %}
             <div class="col-md-4 book-container">
-                <a href="{{ url_for('web.book_detail', isbn=book.isbn) }}" class="">
+                <a href="{{ url_for('web.book:detail', isbn=book.isbn) }}" class="">
                     <div class="col-md-4 no-padding">
                         <img class="book-img cssshadow" src="{{ book.image }}">
                     </div>

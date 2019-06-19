@@ -68,7 +68,17 @@
         </div>
     </div>
 
-
+<div class="container-height flex-vertical-center float-menu">
+        {% if not current_user.is_authenticated %}
+            <div style="float:right">
+                <a href="{{ url_for('web.auth:login') }}">登录</a>
+                <a style="margin-left: 40px;" href="{{ url_for('web.auth:register') }}">注册</a>
+            </div>
+        {% else %}
+            <a href="">{{ current_user.nickname }}的鱼书</a>
+            <a style="margin-left: 40px;" href="{{ url_for('web.auth:logout') }}">注销</a>
+        {% endif %}
+    </div>
 
 {% endblock %}
 <div class='container'>

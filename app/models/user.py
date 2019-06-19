@@ -1,10 +1,12 @@
-from sqlalchemy import Column, String, Boolean, Float, Integer, Text
+from sqlalchemy import Column, String, Boolean, Float, Integer
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from app.libs.token import generate_token, translate_token
+from app.libs.util import is_isbn_or_key
 from app.models import Base, db
 from flask_login import UserMixin
 from app.ext import login_manager
+from app.libs.api import YuShuBook
 
 
 class User(Base, UserMixin):
@@ -18,6 +20,10 @@ class User(Base, UserMixin):
     _password = Column('password', String(100), nullable=False)
     # 用户是否激活
     confirmed = Column(Boolean, default=False)
+
+    @property
+    def is_active(self):
+        return self.confirmed
 
     @property
     def password(self):
@@ -36,7 +42,6 @@ class User(Base, UserMixin):
             return False
         return check_password_hash(self._password, raw)
 
-
     @staticmethod
     def confirm_token(token):
         data = translate_token(token)
@@ -50,9 +55,38 @@ class User(Base, UserMixin):
             return True
         return False
 
-    @property
-    def is_active(self):
-        return self.confirmed
+    def can_save_to_list(self, isbn):
+        if is_isbn_or_key(isbn) != 'isbn':
+            return False
+        yushu_book = YuShuBook()
+        yushu_book.search_by_isbn(isbn)
+        if not yushu_book.first:
+            return False
+
+        from app.models.gift import Gift
+        from app.models.wish import Wish
+
+        gifting = Gift.query.filter_by(uid=self.id, isbn=isbn,
+                                       launched=False).first()
+        wishing = Wish.query.filter_by(uid=self.id, isbn=isbn,
+                                       launched=False).first()
+        if not gifting and not wishing:
+            return True
+        else:
+            return False
+
+    def is_in_gifts(self, isbn):
+        from app.models.gift import Gift
+        return True if Gift.query.filter_by(uid=self.id, isbn=isbn, launched=False
+                                            ).first() else False
+
+    def is_in_wishes(self, isbn):
+        from app.models.wish import Wish
+        return True if Wish.query.filter_by(uid=self.id, isbn=isbn, launched=False
+                                            ).first() else False
+
+
+
 
 
 @login_manager.user_loader

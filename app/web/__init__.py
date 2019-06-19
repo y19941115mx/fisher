@@ -1,5 +1,9 @@
-from flask import Blueprint
-from app.web import book, draft, wish, auth
+from flask import Blueprint, render_template
+
+from app.ext import cache
+from app.models.gift import Gift
+from app.view_models.book import BookViewModel
+from app.web import book, draft, wish, auth, gift
 
 
 def create_blueprint_web():
@@ -8,6 +12,7 @@ def create_blueprint_web():
     wish.redprint.register(blueprint)
     draft.redprint.register(blueprint)
     auth.redprint.register(blueprint)
+    gift.redprint.register(blueprint)
     return blueprint
 
 
@@ -15,5 +20,10 @@ bp = create_blueprint_web()
 
 
 @bp.route('/')
-def main():
-    return 'index'
+@cache.cached(timeout=60)
+def index():
+    gifts = Gift.recent()
+    books = [BookViewModel(gift.book) for gift in gifts]
+    return render_template('index.html', recent=books)
+
+
