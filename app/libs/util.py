@@ -7,7 +7,6 @@ from flask_mail import Message
 from werkzeug.exceptions import InternalServerError
 
 from app.ext import mail
-from app.libs.api import YuShuBook
 
 
 def is_isbn_or_key(word):
@@ -43,7 +42,7 @@ def send_async_email(app, msg):
         try:
             mail.send(msg)
         except Exception as e:
-            raise InternalServerError()
+            app.logger.exception('email send fail')
 
 
 def send_email(to: str, subject: str, template: str, **kwargs):

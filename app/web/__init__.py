@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template
+from werkzeug.exceptions import HTTPException
 
 from app.models.gift import Gift
 from app.view_models.book import BookViewModel
@@ -23,5 +24,10 @@ def index():
     gifts = Gift.recent()
     books = [BookViewModel(gift.book) for gift in gifts]
     return render_template('index.html', recent=books)
+
+
+
+
+
 
 
