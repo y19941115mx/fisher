@@ -16,6 +16,7 @@ flask-caching = "*"
 flask-migrate = "*"
 flask-script = "*"
 flask-mail = "*"
+gunicorn = "*"
 
 [requires]
 python_version = "3.6"
