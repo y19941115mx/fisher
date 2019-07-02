@@ -1,6 +1,6 @@
 import math
 
-from sqlalchemy import Column, String, Boolean, Float, Integer
+from sqlalchemy import Column, String, Boolean, Float, Integer, orm
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from app.libs.token import generate_token, translate_token
@@ -22,6 +22,11 @@ class User(Base, UserMixin):
     _password = Column('password', String(100), nullable=False)
     # 用户是否激活
     confirmed = Column(Boolean, default=False)
+
+    @orm.reconstructor
+    def __init__(self):
+        super(User, self).__init__()
+        self.fields = ['id', 'nickname', 'phone_number']
 
     @property
     def is_active(self):

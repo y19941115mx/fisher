@@ -1,7 +1,9 @@
 from flask import Blueprint, render_template
 from werkzeug.exceptions import HTTPException
 
+from app.libs.util import jsonify
 from app.models.gift import Gift
+from app.models.user import User
 from app.view_models.book import BookViewModel
 from app.web import book, drift, wish, auth, gift
 
@@ -21,9 +23,13 @@ bp = create_blueprint_web()
 
 @bp.route('/')
 def index():
-    gifts = Gift.recent()
-    books = [BookViewModel(gift.book) for gift in gifts]
-    return render_template('index.html', recent=books)
+    # gifts = Gift.recent()
+    # books = [BookViewModel(gift.book) for gift in gifts]
+    # return render_template('index.html', recent=books)
+
+    user = User.query.get_or_404_api(17)
+
+    return jsonify(user, sum=1)
 
 
 

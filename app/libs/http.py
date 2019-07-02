@@ -1,8 +1,6 @@
 import requests
 
-
 class HTTP:
-
     @staticmethod
     def get(url, return_json=True):
         response = requests.get(url)

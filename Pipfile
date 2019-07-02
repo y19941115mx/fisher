@@ -17,6 +17,7 @@ flask-migrate = "*"
 flask-script = "*"
 flask-mail = "*"
 gunicorn = "*"
+flask-httpauth = "*"
 
 [requires]
 python_version = "3.6"

@@ -1,8 +1,6 @@
 from flask import current_app
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
-from app.models import db
-
 
 def generate_token(data=None, expiration=None):
     if data is None:

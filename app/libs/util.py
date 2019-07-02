@@ -1,13 +1,15 @@
+import json
 import random
 import string
 from threading import Thread
 
 from flask import current_app, render_template
 from flask_mail import Message
-from werkzeug.exceptions import InternalServerError
 
 from app.ext import mail
-
+from .exception import ApiException
+from app.models import Base
+from flask import jsonify as _jsonify
 
 def is_isbn_or_key(word):
     word = word.strip()
@@ -52,3 +54,11 @@ def send_email(to: str, subject: str, template: str, **kwargs):
     thr = Thread(target=send_async_email, args=(app, msg))
     thr.start()
     return thr
+
+
+def jsonify(data, **kwargs):
+    assert isinstance(data, Base)
+    for k, v in kwargs.items():
+        setattr(data, k, v)
+        data.append(k)
+    return _jsonify(data)

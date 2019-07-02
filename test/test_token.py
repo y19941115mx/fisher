@@ -1,9 +1,8 @@
-class Test:
+class A:
+    code  = 1
 
-    @property
-    def hello(self):
-        return 1
+class B(A):
+    msg = 2
 
-
-
-print(Test().hello)
+b = B()
+print(isinstance(b, A))
