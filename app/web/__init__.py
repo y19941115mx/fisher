@@ -25,7 +25,8 @@ bp = create_blueprint_web()
 def index():
     gifts = Gift.recent()
     books = [BookViewModel(gift.book) for gift in gifts]
-    return render_template('index.html', recent=books)
+    # return render_template('index.html', recent=books)
+
 
 
 

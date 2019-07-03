@@ -18,6 +18,7 @@ flask-script = "*"
 flask-mail = "*"
 gunicorn = "*"
 flask-httpauth = "*"
+leancloud = "*"
 
 [requires]
 python_version = "3.6"

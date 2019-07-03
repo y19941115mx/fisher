@@ -1,9 +1,9 @@
 import math
 
-from sqlalchemy import Column, String, Boolean, Float, Integer, orm
+from sqlalchemy import Column, String, Boolean, Float, Integer, orm, SmallInteger
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from app.libs.token import generate_token, translate_token
+from app.libs.token_auth import generate_token, translate_token
 from app.libs.util import is_isbn_or_key
 from app.models import Base, db
 from flask_login import UserMixin
@@ -22,6 +22,8 @@ class User(Base, UserMixin):
     _password = Column('password', String(100))
     # 用户是否激活
     confirmed = Column(Boolean, default=False)
+    # 用户权限
+    _scope = Column('scope',SmallInteger, default=1)
 
     @orm.reconstructor
     def __init__(self):
@@ -31,6 +33,15 @@ class User(Base, UserMixin):
     @property
     def is_active(self):
         return self.confirmed
+
+    @property
+    def scope(self):
+        return 'AdminScope' if self._scope == 2 else 'UserScope'
+
+    @scope.setter
+    def scope(self, raw):
+        self._scope = raw
+
 
     @property
     def password(self):

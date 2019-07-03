@@ -3,7 +3,7 @@ from flask_login import login_user, logout_user
 from app.libs.redprint import Redprint
 from flask import render_template, request, flash, redirect, url_for
 from app.forms.auth import LoginForm, RegisterForm, EmailForm, ResetPasswordForm
-from app.libs.token import translate_token
+from app.libs.token_auth import translate_token
 from app.libs.util import send_email
 from app.models import db
 from app.models.user import User

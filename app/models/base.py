@@ -48,6 +48,8 @@ class Query(BaseQuery):
         return rv
 
 
+
+
 db = SQLAlchemy(query_class=Query)
 
 

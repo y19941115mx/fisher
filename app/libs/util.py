@@ -11,6 +11,7 @@ from .exception import ApiException
 from app.models import Base
 from flask import jsonify as _jsonify
 
+
 def is_isbn_or_key(word):
     word = word.strip()
     isbn_or_key = 'key'
@@ -56,9 +57,15 @@ def send_email(to: str, subject: str, template: str, **kwargs):
     return thr
 
 
-def jsonify(data, **kwargs):
-    assert isinstance(data, Base)
-    for k, v in kwargs.items():
-        setattr(data, k, v)
-        data.append(k)
-    return _jsonify(data)
+def jsonify(data=None, code=200, **kwargs):
+    if isinstance(data, Base):
+        for k, v in kwargs.items():
+            setattr(data, k, v)
+            data.append(k)
+        data = dict(data=data, msg='success', code=None)
+    elif isinstance(data, list):
+        data = dict(data=data, msg='success', code=None)
+        for k, v in kwargs.items():
+            setattr(data, k, v)
+
+    return _jsonify(**kwargs), code

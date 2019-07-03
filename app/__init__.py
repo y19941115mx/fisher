@@ -18,6 +18,7 @@ extensions = [
 
 blueprints = [
     'app.web:bp',
+    'app.api.v1:bp'
 ]
 
 
