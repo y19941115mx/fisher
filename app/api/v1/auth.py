@@ -10,6 +10,7 @@ from app.libs.token_auth import generate_token
 from app.libs.util import jsonify
 from app.models import db
 from app.models.user import User
+from app.libs.token_auth import translate_token
 
 api = Redprint('auth')
 
@@ -58,3 +59,21 @@ def verify_moble(phone, code):
             user.phone_number = phone
             user.add()
     return dict(uid=user.id, scope=user.scope)
+
+
+@api.route('/token', methods=['POST'])
+def token():
+    json = request.get_json()
+    token = json.get('token', '')
+    if not token:
+        raise ParameterException()
+    user_info = translate_token(token)
+    if user_info:
+        # return jsonify(token=token)
+        users = User.query.all()
+        return jsonify(users)
+    else:
+        raise AuthFailed(msg='token is invalid',
+                         error_code=1002)
+    
+
