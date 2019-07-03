@@ -1,6 +1,6 @@
 from flask import request, current_app
 
-from app.forms.auth import ClientForm
+from app.forms.auth import ClientForm, UserPhoneForm
 from app.libs.enum import ClientTypeEnum
 from app.libs.exception import AuthFailed, ParameterException, Success
 from app.libs.redprint import Redprint
@@ -47,10 +47,11 @@ def login():
 
 
 def verify_moble(phone, code):
-    is_login = cloud.verify_sms_code(phone, code)
+    form = UserPhoneForm().validate_for_api()
+    is_login = cloud.verify_sms_code(form.account.data, form.secret.data)
     if not is_login:
         raise AuthFailed()
-    user = User.query.filter_by(phone_number=phone).first()
+    user = User.query.filter_by(phone_number=str(phone)).first()
     if not user:
         with db.auto_commit():
             user = User()

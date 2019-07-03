@@ -41,7 +41,9 @@ class ResetPasswordForm(BaseForm):
 
 
 class ClientForm(BaseForm):
-    account = StringField(validators=[DataRequired(message='account不能为空')])
+    account = StringField(validators=[DataRequired(message='不允许为空'), length(
+        min=5, max=32
+    )])
     secret = StringField()
     type = IntegerField(validators=[DataRequired()])
 
@@ -51,11 +53,6 @@ class ClientForm(BaseForm):
         except ValueError as e:
             raise e
         # self.type.data = client
-
-    def validate_account(self, value):
-        length = len(str(value.data))
-        if length < 5 or length > 32:
-            raise ValidationError(f'{length}')
 
 
 class UserEmailForm(ClientForm):
@@ -73,3 +70,8 @@ class UserEmailForm(ClientForm):
     def validate_account(self, value):
         if User.query.filter_by(email=value.data).first():
             raise ValidationError()
+
+class UserPhoneForm(ClientForm):
+    account = StringField(validators=[
+        Regexp(r'^1[3456789]\d{9}',message='手机号码格式有误')
+    ])
