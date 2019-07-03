@@ -69,9 +69,7 @@ def token():
         raise ParameterException()
     user_info = translate_token(token)
     if user_info:
-        # return jsonify(token=token)
-        users = User.query.all()
-        return jsonify(users)
+        return jsonify(token=token)
     else:
         raise AuthFailed(msg='token is invalid',
                          error_code=1002)
