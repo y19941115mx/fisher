@@ -23,13 +23,9 @@ bp = create_blueprint_web()
 
 @bp.route('/')
 def index():
-    # gifts = Gift.recent()
-    # books = [BookViewModel(gift.book) for gift in gifts]
-    # return render_template('index.html', recent=books)
-
-    user = User.query.get_or_404_api(17)
-
-    return jsonify(user, sum=1)
+    gifts = Gift.recent()
+    books = [BookViewModel(gift.book) for gift in gifts]
+    return render_template('index.html', recent=books)
 
 
 

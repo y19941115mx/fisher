@@ -9,7 +9,7 @@ class BookViewModel:
         self.price = '￥' + data['price'] if data['price'] else data['price']
         self.isbn = data['isbn']
         self.pubdate = data['pubdate']
-        self.summary = data['summary'].replace('\\n', '<br/>')
+        self.summary = data['summary'].replace('\\n', '<br/>') if data['summary'] else None
         self.pages = data['pages']
 
     @property

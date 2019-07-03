@@ -3,8 +3,7 @@ from werkzeug.exceptions import HTTPException
 
 from app import create_app
 from app.libs.exception import ApiException
-
-app = create_app()
+app = create_app(debug=False)
 
 
 @app.errorhandler(Exception)

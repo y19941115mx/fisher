@@ -13,13 +13,13 @@ from app.libs.api import YuShuBook
 
 class User(Base, UserMixin):
     id = Column(Integer, primary_key=True)
-    nickname = Column(String(24), nullable=False, unique=True)
+    nickname = Column(String(24), unique=True)
     phone_number = Column(String(18), unique=True)
-    email = Column(String(50), unique=True, nullable=False)
+    email = Column(String(50), unique=True)
     beans = Column(Float, default=0)
     send_counter = Column(Integer, default=0)
     receive_counter = Column(Integer, default=0)
-    _password = Column('password', String(100), nullable=False)
+    _password = Column('password', String(100))
     # 用户是否激活
     confirmed = Column(Boolean, default=False)
 
