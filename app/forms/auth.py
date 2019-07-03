@@ -41,7 +41,7 @@ class ResetPasswordForm(BaseForm):
 
 
 class ClientForm(BaseForm):
-    account = StringField(validators=[DataRequired(message='不允许为空')])
+    account = StringField(validators=[DataRequired(message='account不能为空')])
     secret = StringField()
     type = IntegerField(validators=[DataRequired()])
 
@@ -53,9 +53,9 @@ class ClientForm(BaseForm):
         # self.type.data = client
 
     def validate_account(self, value):
-        length = len(str(value)) 
+        length = len(str(value.data))
         if length < 5 or length > 32:
-            raise ValidationError('account的长度为5-32个字符')
+            raise ValidationError(f'{length}')
 
 
 class UserEmailForm(ClientForm):
