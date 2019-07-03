@@ -19,6 +19,7 @@ flask-mail = "*"
 gunicorn = "*"
 flask-httpauth = "*"
 leancloud = "*"
+flask-cors = "*"
 
 [requires]
 python_version = "3.6"

@@ -5,6 +5,8 @@ from flask_login import LoginManager
 from flask_mail import Mail
 
 from app.models import db
+import leancloud
+
 
 
 login_manager = LoginManager()
@@ -24,3 +26,5 @@ def setup_plugins(app):
     if not app.config['DEBUG']:
         logging.basicConfig(filename="app.log", filemode='w',
                             format='%(asctime)s - %(levelname)s - %(filename)s - %(funcName)s - %(lineno)s - %(message)s')
+
+    leancloud.init(app.config['LEAN_APP_ID'], app.config['LEAN_APP_KEY'])

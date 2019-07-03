@@ -4,7 +4,7 @@ from app.forms.auth import ClientForm
 from app.libs.enum import ClientTypeEnum
 from app.libs.exception import AuthFailed, ParameterException, Success
 from app.libs.redprint import Redprint
-import leancloud
+from leancloud import cloud
 
 from app.libs.token_auth import generate_token
 from app.libs.util import jsonify
@@ -13,8 +13,8 @@ from app.models.user import User
 
 api = Redprint('auth')
 
-leancloud.init("Xpsp8lfXPbeovhIWHgAshGva-gzGzoHsz", "F2TrtQyc3VKn0fKefA9ScUYX")
-
+# with current_app.app_context():
+    # leancloud.init(current_app.config['LEAN_APP_ID'], current_app.config['LEAN_APP_KEY'])
 
 @api.route('/sms', methods=['POST'])
 def send_sms():
@@ -23,7 +23,7 @@ def send_sms():
     if not phone_num:
         raise ParameterException()
 
-    leancloud.cloud.request_sms_code(phone_num)
+    cloud.request_sms_code(phone_num)
     raise Success
 
 
@@ -47,7 +47,7 @@ def login():
 
 
 def verify_moble(phone, code):
-    is_login = leancloud.cloud.verify_sms_code(phone, code)
+    is_login = cloud.verify_sms_code(phone, code)
     if not is_login:
         raise AuthFailed()
     user = User.query.filter_by(phone_number=phone).first()
