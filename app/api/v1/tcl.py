@@ -7,7 +7,7 @@ from flask import g
 
 api = Redprint('tcl')
 
-@api.route('/healthy')
+@api.route('/healthy', methods=['POST'])
 @auth.login_required
 def get_healthy_msg():
     uid = g.user.uid
@@ -15,13 +15,13 @@ def get_healthy_msg():
     return jsonify(msg)
 
 
-@api.route('/notice')
+@api.route('/notice', methods=['POST'])
 def get_notice():
     msg = Notice.query.limit(1).first_or_404_api()
     return jsonify(msg)
 
 
-@api.route('/article')
+@api.route('/article', methods=['POST'])
 def get_article():
     page = request.args.get('page', 1)
     per_page = current_app.config['PER_PAGE'] or 15
