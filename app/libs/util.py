@@ -58,20 +58,20 @@ def send_email(to: str, subject: str, template: str, **kwargs):
 
 
 def jsonify(data=None, code=200, **kwargs):
+    response= dict(msg='success', error_code=0)
     if not data:
-        return _jsonify(**kwargs), code
-
+        response.update(data=kwargs)
+       
     if isinstance(data, Base):
         for k, v in kwargs.items():
             setattr(data, k, v)
             data.append(k)
-        data = dict(data=data, msg='success', code=None)
-        return _jsonify(data)
-
-    elif isinstance(data, list):
-        data = dict(data=data, msg='success', code=None)
+        response.update(data=data)
+        
+    if isinstance(data, list):
+        response.update(data=data)
         for k, v in kwargs.items():
-            setattr(data, k, v)
-        return _jsonify(data)
+            setattr(response, k, v)
 
-    return _jsonify(data), code
+    return _jsonify(response), code
+    

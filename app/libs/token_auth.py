@@ -63,7 +63,7 @@ def verify_auth_token(token):
     ac_type = data['type']
     scope = data['scope']
     # 权限控制
-    allow = is_in_scope(scope, request.endpoint)
-    if not allow:
-        raise Forbidden()
+    # allow = is_in_scope(scope, request.endpoint)
+    # if not allow:
+    #     raise Forbidden()
     return User(uid, ac_type, scope)

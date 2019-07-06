@@ -2,12 +2,15 @@ from flask import jsonify, request, current_app
 
 from app.libs.redprint import Redprint
 from app.models.tcl import Healthy, Notice, Article
+from app.libs.token_auth import auth
+from flask import g
 
 api = Redprint('tcl')
 
-
-@api.route('/healthy/<uid>')
-def get_healthy_msg(uid):
+@api.route('/healthy')
+@auth.login_required
+def get_healthy_msg():
+    uid = g.user.uid
     msg = Healthy.query.filter_by(uid=uid).first_or_404_api()
     return jsonify(msg)
 
