@@ -11,7 +11,7 @@ from app.libs.scope import is_in_scope
 def generate_token(data=None, expiration=600):
     if data is None:
         data = {}
-    expiration = expiration or current_app.config.get('EXPIRATION_TIME')
+    expiration = current_app.config.get('EXPIRATION_TIME') or expiration
     s = Serializer(current_app.config['SECRET_KEY'], expiration)
     return s.dumps(data).decode('ascii')
 

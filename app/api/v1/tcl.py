@@ -1,4 +1,5 @@
-from flask import jsonify, request, current_app
+from flask import request, current_app
+from app.libs.util import jsonify
 
 from app.libs.redprint import Redprint
 from app.models.tcl import Healthy, Notice, Article
